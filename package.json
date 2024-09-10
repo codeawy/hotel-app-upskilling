@@ -1,11 +1,10 @@
 {
   "name": "hotel",
   "version": "1.0.0",
-  "type": "module",
   "description": "",
   "main": "src/app.ts",
   "scripts": {
-    "dev": "nodemon -w src -ext ts --exec ts-node src/app.ts"
+    "dev": "nodemon src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +18,7 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@prisma/client": "5.19.1"
+    "@prisma/client": "^5.19.1",
+    "express": "^4.20.0"
   }
 }
