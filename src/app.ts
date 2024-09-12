@@ -1,15 +1,12 @@
 import express from "express";
-import usersRouter from "./routes";
+import usersRouter from "./routes/users.routers";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hotel app");
-});
-
+// * Routes
 app.use("/users", usersRouter);
 
 app.listen(PORT, () => {
