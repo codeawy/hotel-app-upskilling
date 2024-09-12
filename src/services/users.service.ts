@@ -1,4 +1,4 @@
-import { CreateUserDto } from "../dto/user.dto";
+import { CreateUserDto, UpdateUserDto } from "../dto/user.dto";
 import prisma from "../prisma";
 
 const getAllUsers = async () => {
@@ -19,4 +19,13 @@ const createANewUser = async (user: CreateUserDto) => {
   });
 };
 
-export { getAllUsers, deleteUserWithId, createANewUser };
+const updateUserWithId = async ({ data, id }: { data: UpdateUserDto; id: number }) => {
+  return await prisma.user.update({
+    data,
+    where: {
+      id,
+    },
+  });
+};
+
+export { getAllUsers, deleteUserWithId, createANewUser, updateUserWithId };

@@ -3,3 +3,5 @@ export interface CreateUserDto {
   email: string;
   isAdmin: boolean;
 }
+
+export type UpdateUserDto = Partial<CreateUserDto>;
