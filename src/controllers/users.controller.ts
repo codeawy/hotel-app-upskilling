@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { deleteUserWithId, getAllUsers } from "../services/users.service";
+import { createANewUser, deleteUserWithId, getAllUsers } from "../services/users.service";
+import prisma from "../prisma";
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
@@ -14,18 +15,50 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const users = await deleteUserWithId(+id);
+  const id = req.params.id;
 
+  try {
     res.status(200).json({
       msg: "User has been deleted!",
     });
   } catch (error) {
-    const id = req.params.id;
-
     res.status(500).json({
       error: `Failed to delete a user with ID ${id}`,
+    });
+  }
+};
+
+export const createUser = async (req: Request, res: Response) => {
+  try {
+    const { name, email, isAdmin } = req.body;
+
+    // * Check fi email already taken
+    const existsEmail = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (existsEmail) {
+      return res.status(400).json({
+        msg: "Email is already taken",
+      });
+    }
+
+    // ** Create a new user
+    const newUser = await createANewUser({
+      name,
+      email,
+      isAdmin,
+    });
+
+    res.status(201).json({
+      msg: "User have been created",
+      data: newUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: `Failed to create a user`,
     });
   }
 };

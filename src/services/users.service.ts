@@ -1,3 +1,4 @@
+import { CreateUserDto } from "../dto/user.dto";
 import prisma from "../prisma";
 
 const getAllUsers = async () => {
@@ -12,4 +13,10 @@ const deleteUserWithId = async (id: number) => {
   });
 };
 
-export { getAllUsers, deleteUserWithId };
+const createANewUser = async (user: CreateUserDto) => {
+  return await prisma.user.create({
+    data: user,
+  });
+};
+
+export { getAllUsers, deleteUserWithId, createANewUser };
