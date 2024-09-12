@@ -32,24 +32,14 @@ export const createUser = async (req: Request, res: Response) => {
   try {
     const { name, email, isAdmin } = req.body;
 
-    // * Check fi email already taken
-    const existsEmail = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-
-    if (existsEmail) {
-      return res.status(400).json({
-        msg: "Email is already taken",
-      });
-    }
-
     // ** Create a new user
     const newUser = await createANewUser({
-      name,
+      user: {
+        name,
+        email,
+        isAdmin,
+      },
       email,
-      isAdmin,
     });
 
     res.status(201).json({
@@ -57,8 +47,10 @@ export const createUser = async (req: Request, res: Response) => {
       data: newUser,
     });
   } catch (error) {
+    const errMsg = error instanceof Error ? error.message : String(error);
+
     res.status(500).json({
-      error: `Failed to create a user`,
+      error: errMsg,
     });
   }
 };

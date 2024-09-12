@@ -13,7 +13,18 @@ const deleteUserWithId = async (id: number) => {
   });
 };
 
-const createANewUser = async (user: CreateUserDto) => {
+const createANewUser = async ({ user, email }: { user: CreateUserDto; email: string }) => {
+  // * Check fi email already taken
+  const existsEmail = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (existsEmail) {
+    throw new Error("Email is already taken");
+  }
+
   return await prisma.user.create({
     data: user,
   });
