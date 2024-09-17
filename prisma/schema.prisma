@@ -14,12 +14,66 @@ datasource db {
 }
 
 model User {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  email     String    @unique()
+  isAdmin   Boolean   @default(false)
+  books     Int[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
+
+  @@map("users")
+}
+
+model Admin {
   id        Int      @id @default(autoincrement())
+  email     String   @unique
   name      String   @db.VarChar(255)
-  email     String   @unique()
-  isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
 
-  @@map("users") // * This maps the model to the 'users' table
+model Room {
+  id           Int           @id @default(autoincrement())
+  number       Int           @unique
+  price        Float
+  description  String
+  status       RoomStatus    @default(AVAILABLE)
+  type         RoomType      @default(SINGLE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  bookingItems BookingItem[]
+}
+
+enum RoomStatus {
+  AVAILABLE
+  IN_MAINTIANCE
+  BOOKED
+}
+
+enum RoomType {
+  SINGLE
+  DOUBLE
+  TRIBLE
+}
+
+model Booking {
+  id           Int           @id @default(autoincrement())
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  checkIn      DateTime
+  checkOut     DateTime
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  bookingItems BookingItem[]
+  totalPrice   Float
+}
+
+model BookingItem {
+  id        Int     @id @default(autoincrement())
+  bookingId Int
+  roomId    Int
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  room      Room    @relation(fields: [roomId], references: [id])
 }
