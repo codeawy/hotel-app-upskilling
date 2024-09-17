@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  email     String    @unique()
+  isAdmin   Boolean   @default(false)
+  books     Int[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
+
+  @@map("users")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Room {
+  id           Int           @id @default(autoincrement())
+  number       Int           @unique
+  price        Float
+  description  String
+  status       RoomStatus    @default(AVAILABLE)
+  type         RoomType      @default(SINGLE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  bookingItems BookingItem[]
+}
+
+enum RoomStatus {
+  AVAILABLE
+  IN_MAINTIANCE
+  BOOKED
+}
+
+enum RoomType {
+  SINGLE
+  DOUBLE
+  TRIBLE
+}
+
+model Booking {
+  id           Int           @id @default(autoincrement())
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  checkIn      DateTime
+  checkOut     DateTime
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  bookingItems BookingItem[]
+  totalPrice   Float
+}
+
+model BookingItem {
+  id        Int     @id @default(autoincrement())
+  bookingId Int
+  roomId    Int
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  room      Room    @relation(fields: [roomId], references: [id])
+}
