@@ -1,7 +1,6 @@
 import prisma from "../prisma";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { IUserLogin, IUserRegister } from "../types/auth";
+import { IUserLogin, IUserRegister } from "../interfaces/auth";
 import { generateToken } from "../utils/jwtUtils";
 
 class AuthService {
@@ -52,7 +51,7 @@ class AuthService {
     }
 
     // * Generate JWT token
-    const token = generateToken({ userId: existingUser.id, email: existingUser.email });
+    const token = generateToken({ userId: existingUser.id, email: existingUser.email, role: existingUser.role });
 
     const { password: _, ...rest } = existingUser;
 
