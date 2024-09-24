@@ -1,10 +1,10 @@
 import express from "express";
+import authRoutes from "./routes/authRoutes";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
-});
+app.use("/auth", authRoutes);
+
+export default app;

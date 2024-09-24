@@ -8,8 +8,8 @@ datasource db {
 }
 
 enum Gender {
-  Male
-  Female
+  MALE
+  FEMALE
 }
 
 model User {
@@ -17,7 +17,7 @@ model User {
   name        String
   email       String    @unique
   password    String
-  gender      Gender
+  gender      Gender?
   birthDate   DateTime?
   nationality String?
   phone       String?
