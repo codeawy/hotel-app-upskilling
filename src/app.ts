@@ -1,22 +1,41 @@
 import express from "express";
 import swaggerUi from "swagger-ui-express";
-import swaggerJsdoc from "swagger-jsdoc";
 import authRoutes from "./routes/authRoutes";
 import adminRoutes from "./routes/adminRoutes";
 import swaggerSpec from "./config/swagger";
 import cors from "cors";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import morgan from "morgan";
+import compression from "compression";
 
 const app = express();
-app.use(express.json());
+
+// Basic middlewares
+app.use(express.json({ limit: "10kb" }));
+app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(cors());
 
-// ** Swagger configuration
+// Security middlewares
+app.use(helmet());
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  message: "Too many requests from this IP, please try again later.",
+});
+app.use("/api", limiter);
+
+// Logging middleware
+app.use(morgan("dev"));
+
+// Compression middleware
+app.use(compression());
+
+// Swagger configuration
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// ** Auth routes
+// Routes
 app.use("/auth", authRoutes);
-
-// ** Admin routes
 app.use("/admin", adminRoutes);
 
 export default app;
