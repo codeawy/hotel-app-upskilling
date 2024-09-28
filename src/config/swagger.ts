@@ -1,4 +1,5 @@
 import swaggerJsdoc from "swagger-jsdoc";
+import path from "path";
 
 const swaggerOptions = {
   definition: {
@@ -10,11 +11,11 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `http://localhost:${process.env.PORT}`,
+        url: `http://localhost:${process.env.PORT || 5000}`,
       },
     ],
   },
-  apis: ["./src/routes/*.ts"],
+  apis: [path.resolve(__dirname, "../routes/*.ts")],
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);

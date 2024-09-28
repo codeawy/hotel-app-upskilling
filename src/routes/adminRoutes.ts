@@ -11,6 +11,8 @@ const adminRoutes = Router();
 // Version 1 routes
 const v1Routes = Router();
 
+// ** TODO: We will implement the admin routes with Swagger documentation
+
 v1Routes.use(authMiddleware, roleMiddleware(UserRole.ADMIN));
 
 v1Routes
