@@ -4,7 +4,12 @@ import { validateLogin, validateRegister } from "../validation/auth.validation";
 
 const authRoutes = Router();
 
-authRoutes.post("/register", validateRegister, authController.register);
-authRoutes.post("/login", validateLogin, authController.login);
+// Version 1 routes
+const v1Routes = Router();
+v1Routes.post("/register", validateRegister, authController.register);
+v1Routes.post("/login", validateLogin, authController.login);
+
+// Apply versioning to routes
+authRoutes.use("/v1", v1Routes);
 
 export default authRoutes;
