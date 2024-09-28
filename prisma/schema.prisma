@@ -8,8 +8,8 @@ datasource db {
 }
 
 enum Gender {
-  Male
-  Female
+  MALE
+  FEMALE
 }
 
 model User {
@@ -17,31 +17,21 @@ model User {
   name        String
   email       String    @unique
   password    String
-  gender      Gender
+  gender      Gender?
   birthDate   DateTime?
   nationality String?
   phone       String?
   bookings    Booking[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  admin       Admin?    @relation
+  role        Role      @default(GUEST)
+
+  @@map("users")
 }
 
 enum Role {
-  Admin
-  Business_Owner
-}
-
-model Admin {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  userId    Int      @unique
-  role      Role
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
+  ADMIN
+  GUEST
 }
 
 enum RoomStatus {
@@ -66,6 +56,8 @@ model Room {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   bookings      BookingItem[]
+
+  @@map("rooms")
 }
 
 enum Payment {
@@ -92,6 +84,8 @@ model Booking {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   user          User          @relation(fields: [userId], references: [id])
+
+  @@map("bookings")
 }
 
 model BookingItem {
@@ -100,4 +94,6 @@ model BookingItem {
   roomId    Int
   booking   Booking @relation(fields: [bookingId], references: [id])
   room      Room    @relation(fields: [roomId], references: [id])
+
+  @@map("booking_items")
 }
