@@ -1,21 +1,12 @@
 import swaggerJsdoc from "swagger-jsdoc";
 import path from "path";
+import YAML from "yamljs";
+
+const swaggerDocument = YAML.load(path.join(__dirname, "../docs/openapi.yaml"));
 
 const swaggerOptions = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Hotel Management API",
-      version: "1.0.0",
-      description: "API documentation with pagination",
-    },
-    servers: [
-      {
-        url: `http://localhost:${process.env.PORT || 5000}`,
-      },
-    ],
-  },
-  apis: [path.resolve(__dirname, "../routes/*.ts")],
+  definition: swaggerDocument,
+  apis: [], // We don't need this anymore as we're using an external file
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
