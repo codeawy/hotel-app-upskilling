@@ -37,7 +37,8 @@ class PasswordService {
       data: { resetToken, resetTokenExpires },
     });
 
-    const resetUrl = `http://yourdomain.com/reset-password?token=${resetToken}`;
+    // * TODO: change to production url, and add frontend url
+    const resetUrl = `http://localhost:3000/reset-password?token=${resetToken}`;
     await emailService.sendEmail(user.email, "Password Reset", `Click this link to reset your password: ${resetUrl}`);
   }
 
