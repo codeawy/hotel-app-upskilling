@@ -7,7 +7,7 @@ export const validateChangePassword = [
   validateRequest,
 ];
 
-export const validateForgotPassword = [body("email").isEmail().withMessage("Valid email is required"), validateRequest];
+export const validateforgetPassword = [body("email").isEmail().withMessage("Valid email is required"), validateRequest];
 
 export const validateResetPassword = [
   body("token").notEmpty().withMessage("Reset token is required"),

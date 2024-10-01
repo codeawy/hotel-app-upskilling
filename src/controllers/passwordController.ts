@@ -19,10 +19,10 @@ class PasswordController {
     }
   };
 
-  forgotPassword = async (req: Request, res: Response) => {
+  forgetPassword = async (req: Request, res: Response) => {
     try {
       const { email } = req.body;
-      await passwordService.forgotPassword(email);
+      await passwordService.forgetPassword(email);
 
       const resetTokenExpires = new Date(Date.now() + 3600000); // Token expires in 1 hour
       res.status(200).json({

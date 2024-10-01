@@ -23,7 +23,7 @@ class PasswordService {
     });
   }
 
-  async forgotPassword(email: string) {
+  async forgetPassword(email: string) {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       throw new Error("User not found");
