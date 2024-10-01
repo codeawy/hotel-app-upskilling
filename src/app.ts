@@ -9,6 +9,7 @@ import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 import compression from "compression";
 import { errorHandler } from "./middleware/errorHandlerMiddleware";
+import passwordRoutes from "./routes/passwordRoutes";
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes
 app.use("/auth", authRoutes);
 app.use("/admin", adminRoutes);
+app.use("/password", passwordRoutes);
 
 // Error handler middleware (should be the last middleware)
 app.use(errorHandler);

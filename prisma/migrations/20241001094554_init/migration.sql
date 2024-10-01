@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Gender" AS ENUM ('Male', 'Female');
+CREATE TYPE "Gender" AS ENUM ('MALE', 'FEMALE');
 
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('ADMIN', 'GUEST');
@@ -22,13 +22,15 @@ CREATE TABLE "users" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "gender" "Gender" NOT NULL,
+    "gender" "Gender",
     "birthDate" TIMESTAMP(3),
     "nationality" TEXT,
     "phone" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'GUEST',
+    "resetToken" TEXT,
+    "resetTokenExpires" TIMESTAMP(3),
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );

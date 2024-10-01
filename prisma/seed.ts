@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { PrismaClient, Gender, Role, RoomStatus, RoomType, Payment, BookingStatus } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 
@@ -12,7 +13,7 @@ async function main() {
         data: {
           name: faker.person.fullName(),
           email: faker.internet.email(),
-          password: faker.internet.password(),
+          password: await bcrypt.hash("password@123", 10),
           gender: faker.helpers.arrayElement([Gender.MALE, Gender.FEMALE]),
           birthDate: faker.date.past(),
           nationality: faker.location.country(),
