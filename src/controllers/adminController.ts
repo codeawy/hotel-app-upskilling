@@ -23,7 +23,7 @@ class AdminController {
       const options: PaginationOptions = {
         page: parseInt(req.query.page as string) || 1,
         limit: parseInt(req.query.limit as string) || 10,
-        orderBy: { id: "asc" }, // You can make this dynamic based on query params if needed
+        orderBy: (req.query.orderBy as string) || "createdAt:desc",
       };
       const result = await adminService.getAllRooms(options);
       res.json(result);
