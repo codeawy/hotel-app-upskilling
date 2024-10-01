@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "nodemon src/server.ts"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -19,6 +22,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.5.4",
     "@types/swagger-jsdoc": "^6.0.4",
+    "@types/yamljs": "^0.2.34",
     "nodemon": "^3.1.4",
     "prisma": "^5.19.1",
     "ts-node": "^10.9.2",
@@ -37,6 +41,7 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   }
 }

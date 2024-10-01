@@ -8,6 +8,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 import compression from "compression";
+import { errorHandler } from "./middleware/errorHandlerMiddleware";
 
 const app = express();
 
@@ -50,5 +51,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes
 app.use("/auth", authRoutes);
 app.use("/admin", adminRoutes);
+
+// Error handler middleware (should be the last middleware)
+app.use(errorHandler);
 
 export default app;

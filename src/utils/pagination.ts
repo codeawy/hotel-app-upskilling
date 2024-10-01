@@ -11,7 +11,7 @@ export type PaginatedResult<T> = {
 export type PaginationOptions = {
   page?: number;
   limit?: number;
-  orderBy?: { [key: string]: "asc" | "desc" };
+  orderBy?: string;
 };
 
 export async function paginate<T>(
@@ -21,8 +21,13 @@ export async function paginate<T>(
 ): Promise<PaginatedResult<T>> {
   const page = options.page || 1;
   const limit = options.limit || 10;
-  const orderBy = options.orderBy || { id: "asc" };
   const skip = (page - 1) * limit;
+
+  let orderBy: { [key: string]: "asc" | "desc" } = { id: "asc" };
+  if (options.orderBy) {
+    const [field, direction] = options.orderBy.split(":");
+    orderBy = { [field]: direction as "asc" | "desc" };
+  }
 
   const [data, totalItems] = await Promise.all([
     model.findMany({
