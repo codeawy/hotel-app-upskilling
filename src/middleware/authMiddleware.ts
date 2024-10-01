@@ -1,13 +1,6 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-
-// Define a custom interface for the decoded token
-interface DecodedToken {
-  userId: number;
-  email: string;
-  iat: number;
-  exp: number;
-}
+import { DecodedToken } from "../interfaces/auth";
 
 export const authMiddleware = (req: Request & { user?: DecodedToken }, res: Response, next: NextFunction) => {
   try {

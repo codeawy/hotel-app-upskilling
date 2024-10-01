@@ -1,16 +1,17 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
 import passwordController from "../controllers/passwordController";
-import { roleMiddleware } from "../middleware/roleMiddleware";
-import { UserRole } from "../enum/user.enum";
+import {
+  validateChangePassword,
+  validateForgotPassword,
+  validateResetPassword,
+} from "../validation/password.validation";
 
 const passwordRoutes = Router();
 const { changePassword, forgotPassword, resetPassword } = passwordController;
 
-passwordRoutes.use(authMiddleware, roleMiddleware(UserRole.GUEST));
-
-passwordRoutes.route("/change").post(changePassword);
-passwordRoutes.route("/forgot").post(forgotPassword);
-passwordRoutes.route("/reset").post(resetPassword);
+passwordRoutes.route("/change").post(authMiddleware, validateChangePassword, changePassword);
+passwordRoutes.route("/forgot").post(validateForgotPassword, forgotPassword);
+passwordRoutes.route("/reset").post(validateResetPassword, resetPassword);
 
 export default passwordRoutes;
