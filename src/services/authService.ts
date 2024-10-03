@@ -51,7 +51,7 @@ class AuthService {
     }
 
     // * Generate JWT token
-    const token = generateToken({ userId: existingUser.id, email: existingUser.email, role: existingUser.role });
+    const token = generateToken({ id: existingUser.id, email: existingUser.email, role: existingUser.role });
 
     const { password: _, ...rest } = existingUser;
 
