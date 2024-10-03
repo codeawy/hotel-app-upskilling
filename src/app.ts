@@ -10,6 +10,7 @@ import morgan from "morgan";
 import compression from "compression";
 import { errorHandler } from "./middleware/errorHandlerMiddleware";
 import passwordRoutes from "./routes/passwordRoutes";
+import bookingRoutes from "./routes/roomRoutes";
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/auth", authRoutes);
 app.use("/admin", adminRoutes);
 app.use("/password", passwordRoutes);
+app.use("/bookings", bookingRoutes);
 
 // Error handler middleware (should be the last middleware)
 app.use(errorHandler);

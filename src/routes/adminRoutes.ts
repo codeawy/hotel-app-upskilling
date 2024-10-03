@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
 import { roleMiddleware } from "../middleware/roleMiddleware";
-import { UserRole } from "../enum/user.enum";
 import { validateRequest } from "../middleware/validationMiddleware";
 import { createRoomValidators, updateRoomValidators } from "../validation/room.validation";
 import adminController from "../controllers/adminController";
+import { UserRole } from "../enum/user.enum";
 
 const adminRoutes = Router();
 
